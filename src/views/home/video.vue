@@ -110,7 +110,6 @@
   }
 </style>
 <style scoped lang="scss">
-
   .chy-ts{
     text-align: center;
     color: #fafaf8;
@@ -120,6 +119,5 @@
     position: absolute;
     bottom: 60px;
     left: 50%;
-
   }
 </style>

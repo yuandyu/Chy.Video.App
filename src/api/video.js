@@ -125,53 +125,6 @@ export function GetByOpenid(openId) {
 }
 
 /**
- * 获取直播地址
- * openId          会员id
- * */
-export function LiveConfig() {
-  return request({
-    url: api + 'Config/LiveConfig',
-    method: 'GET'
-  });
-}
-
-/**
-* BannerList
-* */
-export function BannerList() {
-  return request({
-    url: api + 'Config/BannerList',
-    method: 'GET'
-  });
-}
-
-/**
-* 获取主播微信
-* */
-export function OnlinePodcast() {
-  return request({
-    url: api + 'Podcast/OnlinePodcast',
-    method: 'GET'
-  });
-}
-
-/**
- * 发布评论
- * PodcastId          主播id
- * CustomerPhone      联系电话
- * */
-export function PostPhone(PodcastId, CustomerPhone) {
-  return request({
-    url: api + 'Podcast/PostPhone',
-    method: 'POSt',
-    data: {
-      PodcastId: PodcastId,
-      CustomerPhone: CustomerPhone
-    }
-  });
-}
-
-/**
  * 获取个人评论
  * */
 export function MyCommentList(pageIndex, contentId, pageSize = 8) {

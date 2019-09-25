@@ -57,7 +57,6 @@
   /* eslint-disable no-console */
   import { ValidCategoryList, PublishedContentList } from '../../api/video';
   import { Tabs, Tab, List, Search, Tabbar, TabbarItem } from 'vant';
-  const _ = require('lodash');
   import { ChySwipe, ChyList, openidMixin } from '../../components/index';
   export default {
     name: "Home",
@@ -70,7 +69,7 @@
       'van-tabbar': Tabbar,
       'van-tabbar-item': TabbarItem,
       'chy-list': ChyList,
-      'chy-swipe': ChySwipe,
+      'chy-swipe': ChySwipe
     },
     data() {
       return {
@@ -119,11 +118,7 @@
     methods: {
       handleScroll(){
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        if(scrollTop > 270){
-          this.Scroll = true;
-        } else {
-          this.Scroll = false;
-        }
+        this.Scroll = scrollTop > 270;
       },
       async ValidCategoryListAwait() { // 前端获取有效分类
         await ValidCategoryList().then(res => {
@@ -208,7 +203,7 @@
         this.PublishedContentListAwait().then(res => {
           if(res === undefined) return;
           res.forEach(item => {
-            this.contentList.push(item)
+            this.contentList.push(item);
           });
           this.contentListAll.forEach(item => {
             if(item.Id === this.categoryId) {
@@ -216,7 +211,7 @@
               item.pageIndex = this.pageIndex;
               item.total = this.total;
             }
-          })
+          });
           this.$store.dispatch('HomeData', { HomeData: this.contentListAll});
         });
         this.ajaxStatus = false;
