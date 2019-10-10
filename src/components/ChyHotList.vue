@@ -7,8 +7,8 @@
         @load="getHost"
     >
       <div class="chy-hot-list">
-        <van-row type="flex" class="chy-hot-box" justify="space-between" v-for="(hot, index) in list" :key="index" @click.native="goRouter(hot)">
-          <van-col span="15" class="chy-hot-left">
+        <van-row type="flex" class="chy-hot-box" :style="{minHeight : hot.CoverImgUrl ? '80px': '50px'}"  justify="space-between" v-for="(hot, index) in list" :key="index" @click.native="goRouter(hot)">
+          <van-col :span="hot.CoverImgUrl ? '15' : '24'" class="chy-hot-left">
             <div class="chy-hot-title">{{hot.Title}}</div>
             <van-row type="flex" justify="space-between" class="chy-hot-time">
               <van-col>
@@ -17,7 +17,7 @@
               <van-col>{{hot.CreatedTime | time}}</van-col>
             </van-row>
           </van-col>
-          <van-col span="8" offset="1">
+          <van-col span="8" offset="1" v-if="hot.CoverImgUrl">
             <van-image
               width="100%"
               height="100%"
@@ -60,7 +60,7 @@
       let search = this.search;
       this.$store.dispatch('SearchHistory', { SearchHistory: search });
     },
-    beforeUpdate: function () {
+    mounted() {
       this.GetWriteLog({
         UserAction: 'Search',
         ResourceType: 'List',
@@ -99,6 +99,7 @@
 <style scoped lang="scss">
   .chy-hot-list{
     padding: 10px 15px;
+    background-color: #fff;
     .chy-hot-box{
       padding-bottom: 20px;
       min-height: 80px;

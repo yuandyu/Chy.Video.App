@@ -4,22 +4,22 @@
       <!--视频1-->
       <div class="chy-iframe">
 
-        <div class="chy-CreatedTime" style="">{{list.CreatedTime | time}}推荐</div>
+        <div class="chy-CreatedTime">{{list.CreatedTime | time}}发布</div>
         <van-row :class="{ 'van-row--flex van-row--justify-space-between verticalRow': list.ShowType }">
-          <van-col v-if="list.Type === 2">
+          <van-col v-if="list.Type === 2 && list.CoverImgUrl !== null">
             <div class="chy-find-img" @click="goRouter(list)">
               <van-image
-                  :width="list.ShowType ? '80px' : '100%'"
-                  :height="list.ShowType ? '80px' : ''"
-                  fit="cover"
-                  :src="list.CoverImgUrl"
+                :width="list.ShowType ? '80px' : '100%'"
+                :height="list.ShowType ? '80px' : ''"
+                fit="cover"
+                :src="list.CoverImgUrl"
               />
             </div>
           </van-col>
           <van-col v-else style="width: 100%;">
             <div v-html="list.VideoURL" style="background-color: #fff;" class="iframe"></div>
           </van-col>
-          <van-col class="chy-iframe-title" @click="goRouter(list)">{{list.Title}}</van-col>
+          <van-col class="chy-iframe-title" v-bind:style="{ paddingTop: list.CoverImgUrl === null ? '0px' : ''}" @click="goRouter(list)">{{list.Title}}</van-col>
         </van-row>
 
 

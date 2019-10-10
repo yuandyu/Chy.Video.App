@@ -9,9 +9,7 @@ search = {
     SEARCH_HISTORY: (state, SearchHistory) => {
       let etc = 0;
       state.SearchHistory.forEach(item => {
-        if(item === SearchHistory){
-          etc = 1;
-        }
+        if(item === SearchHistory) etc = 1;
       });
       if(etc) return;
       state.SearchHistory.push(SearchHistory);

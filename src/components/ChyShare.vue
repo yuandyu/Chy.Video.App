@@ -3,7 +3,7 @@
     <div class="chy-share" @click="show = true">
       <van-icon name="share" class="chy-share-icon" />
     </div>
-    <van-popup v-model="show" @click="show = false;">
+    <van-popup v-model="show" @click="show = false">
       <van-image
           width="10rem"
           height="10rem"
@@ -16,7 +16,6 @@
 
 <script>
   import { Popup, Icon, Image } from 'vant';
-  import { onMenuShareTimeline, onMenuShareAppMessage } from '../utils/loaction';
   const shareguide = require('../assets/img/shareguide.png');
   export default {
     name: "ChyShare",
@@ -38,29 +37,6 @@
       'van-popup': Popup,
       'van-icon': Icon,
       'van-image': Image
-    },
-    methods: {
-      popupFn(){
-        this.show = true;
-      },
-      onMenuShareTimeline() {
-        this.GetWriteLog({
-          UserAction: 'Share',
-          ResourceType: this.$route.meta.type,
-          Content: this.$route.query.Id,
-          Detail: ''
-        });
-        onMenuShareTimeline(this.wxInfo)
-      },
-      onMenuShareAppMessage() {
-        this.GetWriteLog({
-          UserAction: 'Share',
-          ResourceType: this.$route.meta.type,
-          Content: this.$route.query.Id,
-          Detail: ''
-        });
-        onMenuShareAppMessage(this.wxInfo)
-      }
     }
   }
 </script>

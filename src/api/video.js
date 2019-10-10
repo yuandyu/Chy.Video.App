@@ -162,3 +162,13 @@ export function GetAllAdList(){
     method: 'GET',
   });
 }
+
+/*
+* banner
+* */
+export function CategoryList(){
+  return request({
+    url: api + 'Category/CategoryList',
+    method: 'GET',
+  });
+}

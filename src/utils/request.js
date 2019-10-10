@@ -17,7 +17,7 @@ service.interceptors.request.use(config => {
   }
   // 请求头
   const Authorization = getStore('access_token');
-  config.headers['Authorization'] = 'Bearer ' + Authorization;
+  config.headers['Authorization'] = `Bearer ${Authorization}`;
   config.headers['Access-Control-Allow-Origin'] = '*';
   config.headers['Content-Type'] = 'application/json-patch+json';
   config.headers['accept'] = 'application/json';
@@ -29,15 +29,15 @@ service.interceptors.request.use(config => {
 });
 
 service.interceptors.response.use(response => {
-  if(response.data.Code !== 0){
+  if (response.data.Code === 0) {
+    Toast.clear();
+    return response.data;
+  } else {
     Toast({
       duration: 3000,
       message: response.data.Msg
     });
-    return
   }
-  Toast.clear();
-  return response.data;
 }, error => {
   Toast.clear();
   Toast.fail({
