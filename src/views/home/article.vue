@@ -1,28 +1,29 @@
 <template>
-  <div style="background-color: #fff;" :style="{height: outerHeight + 60 + 'px'}">
+  <div style="background-color: #fff;" :style="{height: outerHeight - 60 + 'px'}">
     <van-nav-bar
         :fixed="true"
         title="详情"
         left-arrow
         @click-left="$router.go(-1)" />
-    <div style="height: 46px;">&nbsp;</div>
-    <chy-article-title :type=0 :content="content" />
-    <div v-html="content.Text" class="content ql-editor" style="padding: 0 10px;"></div>
+    <div style="margin-top: 46px;">
+      <chy-article-title :type=0 :content="content" />
+      <div v-html="content.Text" class="content ql-editor" style="padding: 0 10px; "></div>
 
-    <chy-comments-list :typeComments="'article'" />
-    <chy-share />
-    <div style="height: 60px">&nbsp;</div>
-    <chy-article-bottom :type=0  @showFn="comments.show = true" :content="content" @LikeCount="LikeCount" />
-    <chy-comments :show="comments.show" @onClickLeft="onClickLeft" :content="content" />
+      <chy-comments-list :typeComments="'article'" />
+      <chy-share />
+      <div style="height: 60px">&nbsp;</div>
+      <chy-article-bottom :type=0  @showFn="comments.show = true" :content="content" @LikeCount="LikeCount" />
+      <chy-comments :show="comments.show" @onClickLeft="onClickLeft" :content="content" />
+    </div>
   </div>
 </template>
 
 <script>
   const outerHeight = window.outerHeight;
+  import { PublishedContent, PostLike } from '../../api/video';
   import '../../assets/css/quill.core.css';
   import '../../assets/css/quill.snow.css';
   import '../../assets/css/quill.bubble.css';
-  import { PublishedContent, PostLike } from '../../api/video';
   import { NavBar } from 'vant';
   import { ChyShare, ChyArticleTitle, ChyArticleBottom, ChyComments, ChyCommentsList } from '../../components/index';
   export default {

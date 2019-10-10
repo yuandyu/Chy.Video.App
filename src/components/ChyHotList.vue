@@ -7,7 +7,7 @@
         @load="getHost"
     >
       <div class="chy-hot-list">
-        <van-row type="flex" class="chy-hot-box" :style="{minHeight : hot.CoverImgUrl ? '80px': '50px'}"  justify="space-between" v-for="(hot, index) in list" :key="index" @click.native="goRouter(hot)">
+        <van-row type="flex" class="chy-hot-box" :style="{minHeight : hot.CoverImgUrl ? '80px': '50px'}" justify="space-between" v-for="(hot, index) in list" :key="index" @click.native="goRouter(hot)">
           <van-col :span="hot.CoverImgUrl ? '15' : '24'" class="chy-hot-left">
             <div class="chy-hot-title">{{hot.Title}}</div>
             <van-row type="flex" justify="space-between" class="chy-hot-time">

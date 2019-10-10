@@ -1,14 +1,8 @@
 <template>
   <div class="chy-home-box">
-    <van-row type="flex" justify="space-between" align="center" style="background-color: #fff;position: sticky;top: 0; width: 100%; z-index: 111; ">
-      <van-col span="22">
-        <van-search placeholder="请输入搜索关键词" v-model="value" shape="round" @click="$router.push('/search')" style="padding-right: 0;"></van-search>
-      </van-col>
-      <van-col span="2" style="" class="chy-wap-nav" @click.native="getCategoryList">
-        <van-icon name="wap-nav" class="icon" />
-      </van-col>
-    </van-row>
-    <van-tabs color="#fff" @click="onClick" :ellipsis="true" style="padding-top: 10px;" :swipeable="true" :class="Scroll ? 'chy-scroll': 'chy-table'">
+    <van-search placeholder="请输入搜索关键词" v-model="value" shape="round" @click="$router.push('/search')" style="position: sticky;top: 0; width: 100%; z-index: 111"></van-search>
+    <chy-swipe />
+    <van-tabs color="#fff" @click="onClick" :ellipsis="true" :class="Scroll ? 'chy-scroll': 'chy-table'">
       <van-tab v-for="item in sort" :title="item.Name" :key="item.Id">
         <van-list
           v-model="loading"
@@ -17,26 +11,43 @@
           finished-text="没有更多了"
           @load="onLoad"
         >
-          <chy-list :contentList="contentList" class="contentList"></chy-list>
+          <chy-list :contentList="contentList" style=" padding: 0 15px;margin-top: 10px;"></chy-list>
         </van-list>
       </van-tab>
     </van-tabs>
-    <van-popup
-        v-model="collapse.show"
-        position="left"
-        :style="{ height: '100%', width: '80%' }"
-    >
-      <chy-collapse :sort="collapse.data" style="padding-right: 16px;" @collapseFn="collapseFn" />
-    </van-popup>
+    <van-tabbar v-model="active" style="background-color: #f3f3f3; border-top: 1px solid #ddd;">
+      <van-tabbar-item url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx653b80d92e44bc3d&redirect_uri=http%3a%2f%2fcloud.chehaiyang.com%2fMobile%2fNear%2fNearbyList%2f&response_type=code&scope=snsapi_base&state=0#wechat_redirect">
+        <span class="chy-bottom-name">附近</span>
+        <img slot="icon" slot-scope="props" :src="props.active ? icon.nearby_a : icon.nearby">
+      </van-tabbar-item>
+      <van-tabbar-item url="http://cloud.chehaiyang.com/minimall.html">
+        <span class="chy-bottom-name">商城</span>
+        <img slot="icon" slot-scope="props" :src="props.active ? icon.mall_a : icon.mall">
+      </van-tabbar-item>
 
+<!--      <van-tabbar-item icon="thumb-circle" style="color: #eb544b; font-weight: bold;">发现精彩</van-tabbar-item>-->
+      <van-tabbar-item style="color: #eb544b;">
+        <span class="chy-bottom-name">发现精彩</span>
+        <img slot="icon" slot-scope="props" :src="props.active ? icon.find1_a : icon.find1" style="width: 28px; height: 24px;">
+<!--        <van-icon name="thumb-circle" slot="icon" class="thumb-circle" style=""  />-->
+      </van-tabbar-item>
+      <van-tabbar-item url="http://cloud.chehaiyang.com/Mobile/Services/Services/">
+        <span class="chy-bottom-name">服务</span>
+        <img slot="icon" slot-scope="props" :src="props.active ? icon.service_a : icon.service">
+      </van-tabbar-item>
+      <van-tabbar-item url="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx653b80d92e44bc3d&redirect_uri=http%3a%2f%2fcloud.chehaiyang.com%2fMobile%2fMe%2fUserCenter%2f&response_type=code&scope=snsapi_base&state=0#wechat_redirect">
+        <span class="chy-bottom-name">我的</span>
+        <img slot="icon" slot-scope="props" :src="props.active ? icon.user_a : icon.user">
+      </van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
 <script>
   /* eslint-disable no-console */
-  import { ValidCategoryList, PublishedContentList, CategoryList } from '../../api/video';
-  import { Tabs, Tab, List, Search, Row, Col, Icon, Popup } from 'vant';
-  import { ChyList, openidMixin, ChyCollapse } from '../../components/index';
+  import { ValidCategoryList, PublishedContentList } from '../../api/video';
+  import { Tabs, Tab, List, Search, Tabbar, TabbarItem, Icon } from 'vant';
+  import { ChySwipe, ChyList, openidMixin } from '../../components/index';
   export default {
     name: "Home",
     mixin: [openidMixin],
@@ -45,20 +56,14 @@
       'van-tab': Tab,
       'van-list': List,
       'van-search': Search,
-      'van-row': Row,
-      'van-col': Col,
+      'van-tabbar': Tabbar,
       'van-icon': Icon,
-      'van-popup': Popup,
+      'van-tabbar-item': TabbarItem,
       'chy-list': ChyList,
-      'chy-collapse': ChyCollapse,
+      'chy-swipe': ChySwipe
     },
     data() {
       return {
-        collapse: {
-          show: false,
-          activeNames: '1',
-          data: []
-        },
         icon: {
           nearby: '',
           nearby_a: '',
@@ -68,6 +73,8 @@
           service_a: '',
           user: '',
           user_a: '',
+          find1: '',
+          find1_a: '',
         },
         active: 2,
         value: '',
@@ -104,7 +111,7 @@
     methods: {
       handleScroll(){
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        this.Scroll = scrollTop > 54;
+        this.Scroll = scrollTop > 270;
       },
       async ValidCategoryListAwait() { // 前端获取有效分类
         await ValidCategoryList().then(res => {
@@ -175,6 +182,7 @@
                 Detail: title
               });
             }
+
           }
         });
       },
@@ -200,20 +208,6 @@
           this.$store.dispatch('HomeData', { HomeData: this.contentListAll});
         });
         this.ajaxStatus = false;
-      },
-      async getCategoryList(){
-        this.collapse.show = true;
-        await CategoryList().then(res => {
-          this.collapse.data = res.Data
-        })
-      },
-      collapseFn(item){
-        this.categoryId = item.Id;
-        this.isRecommend = 0;
-        this.contentList = [];
-        this.pageIndex = 1;
-        this.collapse.show = false;
-        this.onLoad();
       }
     }
   }
@@ -227,6 +221,17 @@
   }
 </style>
 <style scoped>
+  .thumb-circle{
+    width: 28px; height: 24px; margin-top: -2px; text-align: center; font-size: 24px!important;
+  }
+  >>>.van-tabbar-item__icon{
+    margin-bottom: 1px;
+    margin-top: -3px;
+  }
+  >>>.van-tabbar-item__icon img{
+    width: 21px;
+    height: 22px;
+  }
   >>>.van-hairline--top-bottom::after, .van-hairline-unset--top-bottom::after{
     border-width: 0;
   }
@@ -296,19 +301,9 @@
   }
 </style>
 <style scoped lang="scss">
-  .value-class{
-    display: none;
-  }
-  .contentList{
-    padding: 0 15px;
-    margin-top: 10px;
-  }
-  .chy-wap-nav{
-    text-align: center;
-    .icon{
-      font-size: 20px;
-      color: #929292;
-    }
+  .chy-bottom-name{
+    /*font-weight: bold;*/
+    font-size: 12px;
   }
   .chy-anchor-add{
     background-color: rgba(0,153,255,0.8);

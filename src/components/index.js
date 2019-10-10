@@ -8,7 +8,6 @@ import ChyHotList from "./ChyHotList";
 import ChySwipe from "./ChySwipe";
 import ChyList from "./ChyList";
 import openidMixin from "./openidMixin";
-import ChyCollapse from "./ChyCollapse";
 
 export {
   ChyComments,
@@ -20,6 +19,5 @@ export {
   ChyHotList,
   ChySwipe,
   ChyList,
-  openidMixin,
-  ChyCollapse
+  openidMixin
 }
